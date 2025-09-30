@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="public/logo-banner.png" alt="OpenNoution" width="600"/>
+  <img src="public/logo-banner.svg" alt="OpenNoution" width="600"/>
   
   <p align="center">
     <strong>Free & Open Source Notion Alternative</strong>
@@ -87,12 +87,21 @@
 
 ## Quick Start
 
-### Prerequisites
+### Download (Recommended)
 
+**Скачайте готовое приложение:**
+
+- **Windows:** [OpenNoution-Setup.exe](https://github.com/Deithand/OpenNoution/releases)
+- **macOS:** [OpenNoution.dmg](https://github.com/Deithand/OpenNoution/releases)
+- **Linux:** [OpenNoution.AppImage](https://github.com/Deithand/OpenNoution/releases)
+
+### Build from Source
+
+**Prerequisites:**
 - **Node.js** 18 или выше
 - **npm** или **yarn**
 
-### Installation
+**Installation:**
 
 ```bash
 # Clone the repository
@@ -111,12 +120,19 @@ npm run dev
 ### Build for Production
 
 ```bash
-# Build web version
-npm run build
-
-# Build Electron app
+# Build for current platform
 npm run build:electron
+
+# Or build for specific platforms:
+npm run build:win      # Windows (NSIS + Portable)
+npm run build:mac      # macOS (DMG + ZIP)
+npm run build:linux    # Linux (AppImage + DEB + RPM)
+
+# Build for all platforms
+npm run build:all
 ```
+
+**See [BUILD.md](BUILD.md) for detailed build instructions.**
 
 ---
 

@@ -18,6 +18,32 @@ import {
 import SlashCommands from './SlashCommands';
 import ContextMenu from './ContextMenu';
 
+// Parse markdown to HTML
+const parseMarkdown = (text) => {
+  if (!text) return '';
+  
+  let html = text;
+  
+  // Bold: **text** or __text__
+  html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  html = html.replace(/__(.+?)__/g, '<strong>$1</strong>');
+  
+  // Italic: *text* or _text_
+  html = html.replace(/(?<!\*)\*(?!\*)(.+?)\*(?!\*)/g, '<em>$1</em>');
+  html = html.replace(/(?<!_)_(?!_)(.+?)_(?!_)/g, '<em>$1</em>');
+  
+  // Code: `text`
+  html = html.replace(/`(.+?)`/g, '<code class="bg-black-100 px-1 rounded">$1</code>');
+  
+  // Strikethrough: ~~text~~
+  html = html.replace(/~~(.+?)~~/g, '<del>$1</del>');
+  
+  // Highlight: ==text==
+  html = html.replace(/==(.+?)==/g, '<mark class="bg-yellow-200">$1</mark>');
+  
+  return html;
+};
+
 const Block = ({ block, onUpdate, onDelete, onEnter, onTypeChange }) => {
   const [content, setContent] = useState(block.content);
   const [checked, setChecked] = useState(block.checked || false);
@@ -218,20 +244,19 @@ const Block = ({ block, onUpdate, onDelete, onEnter, onTypeChange }) => {
 
         {/* Content */}
         <div className="flex-1 min-w-0 relative">
-          <textarea
+          <div
             ref={textareaRef}
-            value={content}
-            onChange={handleChange}
+            contentEditable
+            suppressContentEditableWarning
+            onInput={(e) => {
+              const text = e.target.innerText;
+              setContent(text);
+            }}
             onBlur={handleBlur}
             onKeyDown={handleKeyDown}
             onContextMenu={handleContextMenu}
-            placeholder={getPlaceholder()}
-            className={`${getBlockClasses()} ${checked ? 'line-through text-black-400' : ''}`}
-            rows={1}
-            onInput={(e) => {
-              e.target.style.height = 'auto';
-              e.target.style.height = e.target.scrollHeight + 'px';
-            }}
+            dangerouslySetInnerHTML={{ __html: parseMarkdown(content) || `<span class="text-black-400">${getPlaceholder()}</span>` }}
+            className={`${getBlockClasses()} ${checked ? 'line-through text-black-400' : ''} outline-none`}
           />
         </div>
 

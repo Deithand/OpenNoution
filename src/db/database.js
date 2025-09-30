@@ -10,6 +10,29 @@ db.version(1).stores({
   settings: 'key, value'
 });
 
+// Initialize database with error handling
+export const initializeDatabase = async () => {
+  try {
+    await db.open();
+    console.log('Database initialized successfully');
+    return true;
+  } catch (error) {
+    console.error('Database initialization error:', error);
+    
+    // Try to delete and recreate
+    try {
+      await Dexie.delete('OpenNoutionDB');
+      await db.open();
+      console.log('Database recreated successfully');
+      return true;
+    } catch (retryError) {
+      console.error('Failed to recreate database:', retryError);
+      alert('Ошибка инициализации базы данных. Попробуйте перезапустить приложение.');
+      return false;
+    }
+  }
+};
+
 // User profile management
 export const getUserProfile = async () => {
   const users = await db.user.toArray();

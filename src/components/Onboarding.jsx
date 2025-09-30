@@ -176,7 +176,6 @@ export default function Onboarding() {
                       key={option}
                       onClick={() => {
                         handleInputChange(step.field, option);
-                        setTimeout(handleNext, 200);
                       }}
                       className={`px-6 py-4 text-lg border-2 rounded-xl transition-all hover:border-black hover:bg-black-50 ${
                         formData[step.field] === option
@@ -202,7 +201,7 @@ export default function Onboarding() {
                 </button>
               )}
               
-              {!step.options && (
+              {(!step.options || (step.options && formData[step.field])) && (
                 <button
                   onClick={handleNext}
                   disabled={step.field && !step.optional && !formData[step.field]}
