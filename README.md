@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="public/logo-banner.svg" alt="OpenNoution" width="600"/>
+  <img src="public/logo-banner.png" alt="OpenNoution" width="600"/>
   
   <p align="center">
     <strong>Free & Open Source Notion Alternative</strong>
