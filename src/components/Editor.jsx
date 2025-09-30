@@ -31,8 +31,19 @@ const Block = ({ block, onUpdate, onDelete, onEnter, onTypeChange }) => {
     setContent(block.content);
   }, [block.content]);
 
+  // Auto-save after typing stops
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (content !== block.content && !showSlashMenu) {
+        onUpdate(block.id, { content });
+      }
+    }, 500); // Save after 500ms of no typing
+
+    return () => clearTimeout(timer);
+  }, [content, showSlashMenu]);
+
   const handleBlur = () => {
-    if (content !== block.content && !content.startsWith('/')) {
+    if (content !== block.content && !showSlashMenu) {
       onUpdate(block.id, { content });
     }
   };
@@ -48,7 +59,7 @@ const Block = ({ block, onUpdate, onDelete, onEnter, onTypeChange }) => {
     setContent(value);
 
     // Проверка на slash команду
-    if (value.startsWith('/')) {
+    if (value.startsWith('/') && value.length > 0) {
       const query = value.slice(1);
       setSlashQuery(query);
       
@@ -363,8 +374,11 @@ export default function Editor() {
           {isLoading ? (
             <div className="text-center py-8 text-black-400">Загрузка...</div>
           ) : blocks.length === 0 ? (
-            <div className="text-black-400">
-              <p className="mb-4">Пустая страница. Начните печатать или нажмите / для команд.</p>
+            <div 
+              className="text-black-400 cursor-text py-4 px-2 hover:bg-black-50 rounded-lg transition-colors"
+              onClick={() => handleAddBlock('text')}
+            >
+              <p>Пустая страница. Начните печатать или нажмите / для команд.</p>
             </div>
           ) : (
             blocks.map((block, index) => (

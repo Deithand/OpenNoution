@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   Plus,
   Search,
-  Settings,
+  Settings as SettingsIcon,
   ChevronRight,
   FileText,
   Trash2,
@@ -12,8 +12,9 @@ import {
   Menu
 } from 'lucide-react';
 import { useStore } from '../store/useStore';
-import { getPages, createPage, deletePage, exportAllData, importAllData } from '../db/database';
+import { getPages, createPage, deletePage, exportAllData, importAllData, getUserProfile } from '../db/database';
 import { toast } from './Toast';
+import Settings from './Settings';
 
 export default function Sidebar() {
   const {
@@ -29,10 +30,18 @@ export default function Sidebar() {
   
   const [expandedPages, setExpandedPages] = useState(new Set());
   const [isLoading, setIsLoading] = useState(true);
+  const [showSettings, setShowSettings] = useState(false);
+  const [userProfile, setUserProfile] = useState(null);
 
   useEffect(() => {
     loadPages();
+    loadUserProfile();
   }, []);
+
+  const loadUserProfile = async () => {
+    const profile = await getUserProfile();
+    setUserProfile(profile);
+  };
 
   const loadPages = async () => {
     setIsLoading(true);
@@ -260,6 +269,14 @@ export default function Sidebar() {
       {/* Footer actions */}
       <div className="p-3 border-t-2 border-black-200 space-y-2">
         <button
+          onClick={() => setShowSettings(true)}
+          className="w-full flex items-center gap-2 px-3 py-2 hover:bg-black-100 rounded-lg transition-colors text-sm font-medium"
+        >
+          <SettingsIcon className="w-4 h-4" />
+          <span>Настройки</span>
+        </button>
+
+        <button
           onClick={handleExport}
           className="w-full flex items-center gap-2 px-3 py-2 hover:bg-black-100 rounded-lg transition-colors text-sm"
         >
@@ -275,6 +292,13 @@ export default function Sidebar() {
           <span>Импорт .opn</span>
         </button>
       </div>
+
+      {/* Settings Modal */}
+      <Settings
+        isOpen={showSettings}
+        onClose={() => setShowSettings(false)}
+        user={userProfile}
+      />
     </motion.div>
   );
 }
