@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Onboarding from './components/Onboarding';
 import Sidebar from './components/Sidebar';
 import Editor from './components/Editor';
+import GlobalSearch from './components/GlobalSearch';
 import { ToastContainer } from './components/Toast';
 import { useStore } from './store/useStore';
 import { getUserProfile, getSetting, initializeDatabase } from './db/database';
@@ -49,16 +50,16 @@ function App() {
 
   if (dbError) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center p-8">
+      <div className="min-h-screen bg-white dark:bg-black-900 flex items-center justify-center p-8">
         <div className="max-w-md text-center">
           <div className="text-6xl mb-4">⚠️</div>
-          <h1 className="text-3xl font-bold mb-4">Ошибка базы данных</h1>
-          <p className="text-lg text-black-600 mb-6">
+          <h1 className="text-3xl font-bold mb-4 dark:text-white">Ошибка базы данных</h1>
+          <p className="text-lg text-black-600 dark:text-black-400 mb-6">
             Не удалось инициализировать локальное хранилище. Это может быть связано с правами доступа.
           </p>
           <button
             onClick={() => window.location.reload()}
-            className="px-6 py-3 bg-black text-white rounded-lg hover:bg-black-800 transition-colors"
+            className="px-6 py-3 bg-black dark:bg-white text-white dark:text-black rounded-lg hover:bg-black-800 dark:hover:bg-black-100 transition-colors"
           >
             Перезагрузить приложение
           </button>
@@ -69,14 +70,14 @@ function App() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
+      <div className="min-h-screen bg-white dark:bg-black-900 flex items-center justify-center">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           className="text-center"
         >
-          <div className="w-16 h-16 border-4 border-black border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-xl font-semibold">Загрузка OpenNoution...</p>
+          <div className="w-16 h-16 border-4 border-black dark:border-white border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-xl font-semibold dark:text-white">Загрузка OpenNoution...</p>
         </motion.div>
       </div>
     );
@@ -85,6 +86,7 @@ function App() {
   return (
     <>
       <ToastContainer />
+      <GlobalSearch />
       <AnimatePresence mode="wait">
         {!isOnboardingComplete ? (
           <motion.div
@@ -100,7 +102,7 @@ function App() {
             key="main-app"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="flex h-screen overflow-hidden bg-white"
+            className="flex h-screen overflow-hidden bg-white dark:bg-black-900"
           >
             <Sidebar />
             <Editor />
