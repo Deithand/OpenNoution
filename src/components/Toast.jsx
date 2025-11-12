@@ -39,24 +39,24 @@ const Toast = ({ toast, onClose }) => {
       initial={{ opacity: 0, y: -20, scale: 0.95 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, y: -20, scale: 0.95 }}
-      className="bg-white border-2 border-black rounded-xl shadow-lg p-4 flex items-start gap-3 min-w-[320px] max-w-md"
+      className="bg-white dark:bg-black-800 border-2 border-black dark:border-black-600 rounded-xl shadow-lg p-4 flex items-start gap-3 min-w-[320px] max-w-md"
     >
       <Icon className={`w-5 h-5 flex-shrink-0 mt-0.5 ${
-        toast.type === 'success' ? 'text-green-600' :
-        toast.type === 'error' ? 'text-red-600' :
-        'text-black'
+        toast.type === 'success' ? 'text-green-600 dark:text-green-400' :
+        toast.type === 'error' ? 'text-red-600 dark:text-red-400' :
+        'text-black dark:text-white'
       }`} />
-      
+
       <div className="flex-1">
         {toast.title && (
-          <div className="font-semibold mb-1">{toast.title}</div>
+          <div className="font-semibold mb-1 dark:text-white">{toast.title}</div>
         )}
-        <div className="text-sm text-black-600">{toast.message}</div>
+        <div className="text-sm text-black-600 dark:text-black-400">{toast.message}</div>
       </div>
 
       <button
         onClick={() => onClose(toast.id)}
-        className="p-1 hover:bg-black-100 rounded transition-colors"
+        className="p-1 hover:bg-black-100 dark:hover:bg-black-700 rounded transition-colors dark:text-white"
       >
         <X className="w-4 h-4" />
       </button>

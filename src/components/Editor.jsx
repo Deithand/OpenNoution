@@ -33,13 +33,13 @@ const parseMarkdown = (text) => {
   html = html.replace(/(?<!_)_(?!_)(.+?)_(?!_)/g, '<em>$1</em>');
   
   // Code: `text`
-  html = html.replace(/`(.+?)`/g, '<code class="bg-black-100 px-1 rounded">$1</code>');
-  
+  html = html.replace(/`(.+?)`/g, '<code class="bg-black-100 dark:bg-black-800 px-1 rounded">$1</code>');
+
   // Strikethrough: ~~text~~
   html = html.replace(/~~(.+?)~~/g, '<del>$1</del>');
-  
+
   // Highlight: ==text==
-  html = html.replace(/==(.+?)==/g, '<mark class="bg-yellow-200">$1</mark>');
+  html = html.replace(/==(.+?)==/g, '<mark class="bg-yellow-200 dark:bg-yellow-600 dark:text-black">$1</mark>');
   
   return html;
 };
@@ -206,13 +206,13 @@ const Block = ({ block, onUpdate, onDelete, onEnter, onTypeChange }) => {
   };
 
   const getBlockClasses = () => {
-    const base = 'w-full bg-transparent border-none outline-none resize-none';
+    const base = 'w-full bg-transparent border-none outline-none resize-none dark:text-white';
     switch (block.type) {
       case 'h1': return `${base} text-4xl font-bold`;
       case 'h2': return `${base} text-3xl font-bold`;
       case 'h3': return `${base} text-2xl font-semibold`;
-      case 'quote': return `${base} text-lg italic border-l-4 border-black pl-4`;
-      case 'code': return `${base} font-mono bg-black-100 p-3 rounded-lg`;
+      case 'quote': return `${base} text-lg italic border-l-4 border-black dark:border-white pl-4`;
+      case 'code': return `${base} font-mono bg-black-100 dark:bg-black-800 p-3 rounded-lg`;
       default: return `${base} text-base`;
     }
   };
@@ -227,7 +227,7 @@ const Block = ({ block, onUpdate, onDelete, onEnter, onTypeChange }) => {
       >
         {/* Drag handle */}
         <div className="opacity-0 group-hover:opacity-100 transition-opacity pt-2">
-          <GripVertical className="w-4 h-4 text-black-400 cursor-grab" />
+          <GripVertical className="w-4 h-4 text-black-400 dark:text-black-500 cursor-grab" />
         </div>
 
         {/* Checkbox for checklist */}
@@ -237,7 +237,7 @@ const Block = ({ block, onUpdate, onDelete, onEnter, onTypeChange }) => {
             className="mt-2 flex-shrink-0"
           >
             <CheckSquare
-              className={`w-5 h-5 ${checked ? 'text-black' : 'text-black-300'}`}
+              className={`w-5 h-5 ${checked ? 'text-black dark:text-white' : 'text-black-300 dark:text-black-600'}`}
             />
           </button>
         )}
@@ -255,17 +255,17 @@ const Block = ({ block, onUpdate, onDelete, onEnter, onTypeChange }) => {
             onBlur={handleBlur}
             onKeyDown={handleKeyDown}
             onContextMenu={handleContextMenu}
-            dangerouslySetInnerHTML={{ __html: parseMarkdown(content) || `<span class="text-black-400">${getPlaceholder()}</span>` }}
-            className={`${getBlockClasses()} ${checked ? 'line-through text-black-400' : ''} outline-none`}
+            dangerouslySetInnerHTML={{ __html: parseMarkdown(content) || `<span class="text-black-400 dark:text-black-500">${getPlaceholder()}</span>` }}
+            className={`${getBlockClasses()} ${checked ? 'line-through text-black-400 dark:text-black-500' : ''} outline-none`}
           />
         </div>
 
         {/* Delete button */}
         <button
           onClick={() => onDelete(block.id)}
-          className="opacity-0 group-hover:opacity-100 transition-opacity mt-2 p-1 hover:bg-red-100 rounded"
+          className="opacity-0 group-hover:opacity-100 transition-opacity mt-2 p-1 hover:bg-red-100 dark:hover:bg-red-900/20 rounded"
         >
-          <Trash2 className="w-4 h-4 text-black-400" />
+          <Trash2 className="w-4 h-4 text-black-400 dark:text-black-500" />
         </button>
       </motion.div>
 
@@ -363,13 +363,13 @@ export default function Editor() {
 
   if (!currentPageId) {
     return (
-      <div className="flex-1 flex items-center justify-center bg-white">
+      <div className="flex-1 flex items-center justify-center bg-white dark:bg-black-900">
         <div className="text-center">
-          <FileText className="w-16 h-16 text-black-200 mx-auto mb-4" />
-          <h2 className="text-2xl font-semibold text-black-400 mb-2">
+          <FileText className="w-16 h-16 text-black-200 dark:text-black-700 mx-auto mb-4" />
+          <h2 className="text-2xl font-semibold text-black-400 dark:text-black-500 mb-2">
             Выберите страницу
           </h2>
-          <p className="text-black-400">
+          <p className="text-black-400 dark:text-black-500">
             или создайте новую в боковой панели
           </p>
         </div>
@@ -381,7 +381,7 @@ export default function Editor() {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="flex-1 bg-white overflow-y-auto"
+      className="flex-1 bg-white dark:bg-black-900 overflow-y-auto"
     >
       <div className="max-w-4xl mx-auto px-8 py-12">
         {/* Page title */}
@@ -391,16 +391,16 @@ export default function Editor() {
           onChange={handleTitleChange}
           onBlur={handleTitleBlur}
           placeholder="Без названия"
-          className="w-full text-5xl font-bold mb-8 bg-transparent border-none outline-none"
+          className="w-full text-5xl font-bold mb-8 bg-transparent border-none outline-none dark:text-white dark:placeholder:text-black-600"
         />
 
         {/* Blocks */}
         <div className="space-y-1">
           {isLoading ? (
-            <div className="text-center py-8 text-black-400">Загрузка...</div>
+            <div className="text-center py-8 text-black-400 dark:text-black-500">Загрузка...</div>
           ) : blocks.length === 0 ? (
-            <div 
-              className="text-black-400 cursor-text py-4 px-2 hover:bg-black-50 rounded-lg transition-colors"
+            <div
+              className="text-black-400 dark:text-black-500 cursor-text py-4 px-2 hover:bg-black-50 dark:hover:bg-black-800 rounded-lg transition-colors"
               onClick={() => handleAddBlock('text')}
             >
               <p>Пустая страница. Начните печатать или нажмите / для команд.</p>

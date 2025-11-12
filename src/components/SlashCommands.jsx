@@ -114,7 +114,7 @@ export default function SlashCommands({ query, onSelect, position }) {
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: -10, scale: 0.95 }}
         transition={{ duration: 0.15 }}
-        className="absolute z-50 bg-white border-2 border-black rounded-xl shadow-2xl overflow-hidden"
+        className="absolute z-50 bg-white dark:bg-black-800 border-2 border-black dark:border-black-600 rounded-xl shadow-2xl overflow-hidden"
         style={{
           top: position?.top || 0,
           left: position?.left || 0,
@@ -124,7 +124,7 @@ export default function SlashCommands({ query, onSelect, position }) {
         }}
       >
         <div className="p-2">
-          <div className="text-xs text-black-400 px-3 py-2 font-semibold">
+          <div className="text-xs text-black-400 dark:text-black-500 px-3 py-2 font-semibold">
             БЛОКИ
           </div>
           {filteredCommands.map((cmd, index) => {
@@ -135,21 +135,21 @@ export default function SlashCommands({ query, onSelect, position }) {
                 onClick={() => onSelect(cmd.type)}
                 className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all ${
                   index === selectedIndex
-                    ? 'bg-black text-white'
-                    : 'hover:bg-black-100'
+                    ? 'bg-black dark:bg-white text-white dark:text-black'
+                    : 'hover:bg-black-100 dark:hover:bg-black-700 dark:text-white'
                 }`}
               >
                 <Icon className="w-5 h-5 flex-shrink-0" />
                 <div className="flex-1 text-left">
                   <div className="font-medium">{cmd.label}</div>
                   <div className={`text-xs ${
-                    index === selectedIndex ? 'text-white opacity-70' : 'text-black-400'
+                    index === selectedIndex ? 'text-white dark:text-black opacity-70' : 'text-black-400 dark:text-black-500'
                   }`}>
                     /{cmd.shortcut}
                   </div>
                 </div>
                 {index === selectedIndex && (
-                  <div className="text-xs bg-white text-black px-2 py-1 rounded">
+                  <div className="text-xs bg-white dark:bg-black text-black dark:text-white px-2 py-1 rounded">
                     Tab
                   </div>
                 )}
@@ -157,9 +157,9 @@ export default function SlashCommands({ query, onSelect, position }) {
             );
           })}
         </div>
-        <div className="border-t-2 border-black-100 px-3 py-2 bg-black-50 text-xs text-black-500">
-          <span className="font-semibold">↑↓</span> навигация • 
-          <span className="font-semibold ml-1">Tab/Enter</span> выбрать • 
+        <div className="border-t-2 border-black-100 dark:border-black-700 px-3 py-2 bg-black-50 dark:bg-black-900 text-xs text-black-500 dark:text-black-400">
+          <span className="font-semibold">↑↓</span> навигация •
+          <span className="font-semibold ml-1">Tab/Enter</span> выбрать •
           <span className="font-semibold ml-1">Esc</span> закрыть
         </div>
       </motion.div>

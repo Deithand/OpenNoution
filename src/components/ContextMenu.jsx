@@ -103,7 +103,7 @@ export default function ContextMenu({ position, onAction, onClose, selectedText 
   return (
     <AnimatePresence>
       <motion.div
-        className="context-menu fixed z-50 bg-white border-2 border-black rounded-xl shadow-2xl overflow-hidden"
+        className="context-menu fixed z-50 bg-white dark:bg-black-800 border-2 border-black dark:border-black-600 rounded-xl shadow-2xl overflow-hidden"
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
@@ -118,7 +118,7 @@ export default function ContextMenu({ position, onAction, onClose, selectedText 
           {menuItems.map((item, index) => {
             if (item.divider) {
               return (
-                <div key={index} className="h-px bg-black-200 my-1" />
+                <div key={index} className="h-px bg-black-200 dark:bg-black-700 my-1" />
               );
             }
 
@@ -127,14 +127,14 @@ export default function ContextMenu({ position, onAction, onClose, selectedText 
               <button
                 key={item.action}
                 onClick={() => onAction(item.action, item.wrapper)}
-                className={`w-full flex items-center gap-3 px-3 py-2 hover:bg-black text-left transition-colors ${
-                  item.color || 'hover:text-white'
+                className={`w-full flex items-center gap-3 px-3 py-2 hover:bg-black dark:hover:bg-white text-left transition-colors dark:text-white ${
+                  item.color || 'hover:text-white dark:hover:text-black'
                 }`}
               >
                 <Icon className="w-4 h-4 flex-shrink-0" />
                 <span className="flex-1 text-sm font-medium">{item.label}</span>
                 {item.shortcut && (
-                  <span className="text-xs text-black-400 font-mono">
+                  <span className="text-xs text-black-400 dark:text-black-500 font-mono">
                     {item.shortcut}
                   </span>
                 )}
