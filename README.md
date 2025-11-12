@@ -19,9 +19,9 @@
 
   <p align="center">
     <img src="https://img.shields.io/badge/license-MIT-black" alt="License"/>
-    <img src="https://img.shields.io/badge/version-0.0.1-black" alt="Version"/>
-    <img src="https://img.shields.io/badge/react-18.2.0-black" alt="React"/>
-    <img src="https://img.shields.io/badge/electron-28.0.0-black" alt="Electron"/>
+    <img src="https://img.shields.io/badge/version-0.2.0-black" alt="Version"/>
+    <img src="https://img.shields.io/badge/react-18.3.1-black" alt="React"/>
+    <img src="https://img.shields.io/badge/electron-34.2.0-black" alt="Electron"/>
     <img src="https://img.shields.io/badge/PRs-welcome-black" alt="PRs Welcome"/>
   </p>
 </div>
