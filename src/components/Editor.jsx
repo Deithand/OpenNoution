@@ -57,6 +57,10 @@ const Block = ({ block, onUpdate, onDelete, onEnter, onTypeChange }) => {
     setContent(block.content);
   }, [block.content]);
 
+  useEffect(() => {
+    setChecked(block.checked || false);
+  }, [block.checked]);
+
   // Auto-save after typing stops
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -338,8 +342,10 @@ export default function Editor() {
     
     // Focus on the new block
     setTimeout(() => {
-      const textarea = document.querySelector(`[data-block-id="${blockId}"] textarea`);
-      textarea?.focus();
+      const contentEditable = document.querySelector(
+        `[data-block-id="${blockId}"] [contenteditable="true"]`
+      );
+      contentEditable?.focus();
     }, 100);
   };
 
